@@ -15,13 +15,14 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
-    val parse_data_button = findViewById<Button>(R.id.parse_json)
-    val display_data = findViewById<TextView>(R.id.parsed_data)
+
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val parse_data_button = findViewById<Button>(R.id.parse_json)
+
 
         parse_data_button
             .setOnClickListener{
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun parseJson(){
+
+        val display_data = findViewById<TextView>(R.id.parsed_data)
         val users = mutableListOf<User>()
         lifecycleScope.launch {
             val googleData = withContext(Dispatchers.IO) {
@@ -38,14 +41,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             val jsonObj = JSONObject(googleData)
-            val jsonArray = JSONArray(jsonObj.getJSONArray("results"))
+            val jsonArray = jsonObj.getJSONArray("results")
 
             for (i in 0 until jsonArray.length()) {
                 val user = parseUser(jsonArray.getJSONObject(i))
                 users.add(user)
             }
 
-            display_data.text = users.joinToString ("\n"){ it.title }
+            display_data.text = users.joinToString ("\n"){ it.title+" "+it.first+" "+it.last }
         }
     }
 
