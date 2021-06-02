@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun parseJson(){
 
-        val display_data = findViewById<TextView>(R.id.parsed_data)
+        //val display_data = findViewById<TextView>(R.id.parsed_data)
         val users = mutableListOf<User>()
         lifecycleScope.launch {
             val googleData = withContext(Dispatchers.IO) {
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 users.add(user)
             }
 
-            display_data.text = users.joinToString ("\n"){ it.title+" "+it.first+" "+it.last }
+           // display_data.text = users.joinToString ("\n"){ it.title+" "+it.first+" "+it.last }
         }
     }
 

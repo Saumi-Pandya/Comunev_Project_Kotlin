@@ -30,7 +30,8 @@ class name_adapter(val user_list:List<User>):RecyclerView.Adapter<name_adapter.n
     override fun onBindViewHolder(holder: name_adapter.nameViewHolder, position: Int) {
         val currentItem = user_list[position]
         with(holder){
-            nameview.text = currentItem.title+" "+currentItem.first+" "+currentItem.last
+            var conc_name:String =  currentItem.title+" "+currentItem.first+" "+currentItem.last
+            nameview.text = conc_name
         }
     }
 }
