@@ -9,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
-import org.json.JSONArray
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,24 +32,22 @@ class MainActivity : AppCompatActivity() {
         val errorview = findViewById<TextView>(R.id.errorview)
         errorview.text = "Data will be displayed here in a recycler view"
 
-        pbar.isVisible=false;
+        pbar.isVisible = false;
 
         //setting up onClick listener
         parse_data_button
             .setOnClickListener {
-                errorview.isVisible=false
-                pbar.isVisible=true
+                errorview.isVisible = false
+                pbar.isVisible = true
                 parseJson()
             }
     }
 
-    
+    //method to call the function which in return sends an HTTP connection request to the API
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun parseJson() {
         val users = mutableListOf<User>()
-        val errorview = findViewById<TextView>(R.id.errorview)
         val pbar = findViewById<ProgressBar>(R.id.pbar)
-
 
 
         lifecycleScope.launch {
@@ -58,13 +55,13 @@ class MainActivity : AppCompatActivity() {
                 getDataFromNetwork("https://randomuser.me/api/?results=100&inc=name")
             }
 
-            pbar.isVisible=false
+            pbar.isVisible = false
 
+            //handling the case when internet is off
             if (googleData == "No Internet Connection") {
-                Toast.makeText(this@MainActivity,"$googleData",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "$googleData", Toast.LENGTH_SHORT).show()
 
-            }
-            else {
+            } else {
                 val jsonObj = JSONObject(googleData)
                 val jsonArray = jsonObj.getJSONArray("results")
 
@@ -72,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     val user = parseUser(jsonArray.getJSONObject(i))
                     users.add(user)
                 }
-                pbar.isEnabled=false
+                pbar.isEnabled = false
                 setRecyclerView(users)
             }
 
@@ -80,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //this method parses JSON object data into data class object(USER)
     private fun parseUser(jsonObject: JSONObject): User {
         val userObj = jsonObject.getJSONObject("name")
         val user =
@@ -88,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         return user
     }
 
+    //method to populate the recycler view using custom adapter
     private fun setRecyclerView(nameList: List<User>) {
         val recyView = findViewById<RecyclerView>(R.id.recy_view)
         recyView.apply {

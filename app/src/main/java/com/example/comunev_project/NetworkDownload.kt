@@ -4,6 +4,9 @@ import android.util.Log
 import java.net.HttpURLConnection
 import java.net.URL
 
+/* function which sends HTTP request to the API. This function is called in the main activity. It takes the API
+ url as an input and returns String object to the calling function.*/
+
 fun getDataFromNetwork(url: String): String{
     val urlConnection = URL(url).openConnection()
             as HttpURLConnection

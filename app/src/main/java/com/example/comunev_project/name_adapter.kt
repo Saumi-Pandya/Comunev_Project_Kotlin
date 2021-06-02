@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
+// custom adapter class to populate recycler view
 class name_adapter(val user_list:List<User>):RecyclerView.Adapter<name_adapter.nameViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): name_adapter.nameViewHolder {
