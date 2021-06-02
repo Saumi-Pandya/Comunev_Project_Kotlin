@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import org.json.JSONArray
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun parseJson(){
 
-        //val display_data = findViewById<TextView>(R.id.parsed_data)
+
         val users = mutableListOf<User>()
         lifecycleScope.launch {
             val googleData = withContext(Dispatchers.IO) {
@@ -48,7 +51,9 @@ class MainActivity : AppCompatActivity() {
                 users.add(user)
             }
 
-           // display_data.text = users.joinToString ("\n"){ it.title+" "+it.first+" "+it.last }
+            setRecyclerView(users)
+
+           
         }
     }
 
@@ -57,5 +62,15 @@ class MainActivity : AppCompatActivity() {
             val user = User(userObj.getString("title"),userObj.getString("first"),userObj.getString("last"))
 
             return user
+    }
+
+    private fun setRecyclerView(nameList:List<User>){
+        val recyView = findViewById<RecyclerView>(R.id.recy_view)
+        recyView.apply {
+            layoutManager= LinearLayoutManager(this@MainActivity)
+            adapter = name_adapter(nameList)
+            setHasFixedSize(true)
+        }
+        recyView.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
     }
 }

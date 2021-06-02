@@ -10,7 +10,11 @@ fun getDataFromNetwork(url: String): String{
     Log.d("MainActivity", "Before fetchDataAndSave(): " + Thread.currentThread().name)
     try {
         return urlConnection.inputStream.bufferedReader().readText()
-    } finally {
+    }
+    catch (e: Exception){
+        val str: String = "No Internet Connection"
+        return  str
+    }finally {
         urlConnection.disconnect()
     }
 }
